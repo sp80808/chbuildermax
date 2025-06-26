@@ -1,32 +1,32 @@
-# ChordSeqM4L AI Integration Design
+# ChordSeqM4L AI Integration (Enhanced)
 
-## Model Packaging
-1. **Storage**:
-   - Embed models in Max package using [folder] object
-   - Compress models (quantized ONNX format)
-   - Store in `~/Documents/Max/Packages/ChordSeqM4L/models`
+## Model Specifications
+### Supported Architectures
+- Transformer (S/M/L)
+- Conditional Transformer  
+- Recurrent Network
 
-2. **Loading**:
-   ```javascript
-   // JS model loader example
-   const session = new ort.InferenceSession();
-   await session.loadModel('./models/conditional_small.onnx');
-   ```
+```javascript
+// Model Metadata Example
+{
+  "name": "conditional_medium",
+  "input_shape": [64, 12],
+  "output_size": 128, 
+  "quantized": true,
+  "size": "45MB"
+}
+```
 
-## Inference Pipeline
-1. **Input Preparation**:
-   - Convert chord progression to tensor format
-   - Add style/genre conditioning
-   - Normalize inputs
+## Detailed Workflow
 
-2. **Execution**:
-   ```max
-   [prepend set_input]
-   [js run_inference.js]
-   [route get_output]
-   ```
-
-3. **Output Processing**:
+### 1. Model Loading
+```javascript
+// Max JS Object Example
+function loadModel() {
+  const modelPath = getModelPath();
+  const session = new ort.InferenceSession();
+  try {
+    await session.loadModel(modelPath);
    - Convert logits to probabilities
    - Sort suggestions by confidence
    - Filter invalid chords
