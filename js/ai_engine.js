@@ -6,6 +6,8 @@ const { CHORD_MAP } = require('./chord_mapping_full.js');
 
 let currentSession = null;
 let currentModelName = '';
+let currentKey = 'C Major';
+let currentBPM = 120;
 
 // --- Model Loading & Management ---
 
@@ -86,8 +88,13 @@ Max.addHandler('load_model', (modelName) => {
 });
 
 Max.addHandler('generate', (inputChordIndex, keySignature) => {
-    const key = 'C Major'; 
-    generateProgression(inputChordIndex, key);
+    generateProgression(inputChordIndex, keySignature);
+});
+
+Max.addHandler('update_key_bpm', (key, bpm) => {
+    Max.post(`Updating key to: ${key}, BPM to: ${bpm}`);
+    currentKey = key;
+    currentBPM = bpm;
 });
 
 Max.post('AI Engine script loaded.');
