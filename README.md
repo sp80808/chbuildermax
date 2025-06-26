@@ -1,55 +1,53 @@
-# ChordSeqM4L - Max for Live Device
-## Overview
+# Table of Contents
+
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+3. [Max for Live Integration](#max-for-live-integration)
+4. [Web App Usage](#web-app-usage)
+5. [API Documentation](#api-documentation)
+6. [Contributing](#contributing)
+7. [Development Roadmap](#development-roadmap)
+8. [License](#license)
+
+# ChordSeqAI - AI-Powered Chord Progression Tool
+
+## Introduction
+
+ChordSeqAI is a Max for Live device for seamless music composition. This is a self-contained Max for Live device and does not require any external web server or application. All controls are available directly within the Max for Live device interface.
+
+## Max for Live Integration
+
+For detailed documentation about the Max for Live device, see:  
+[ChordSeqM4L Documentation](./ChordSeqM4L_README.md)
+
+Key features:
+- Real-time BPM synchronization
+- Parameter automation
+- Web app control from Ableton
+
 ## Features
-- Real-time BPM sync with Ableton Live
-- Bidirectional parameter control
-- WebSocket API for web app integration
-- Lightweight design (under 5MB)
 
-## Installation
-1. Copy `chordseqm4l.amxd` to your Ableton User Library:
-   - Mac: `/Users/[you]/Music/Ableton/User Library/Presets/MIDI Effects/Max MIDI Effect`
-   - Windows: `C:\Users\[you]\Documents\Ableton\User Library\Presets\MIDI Effects\Max MIDI Effect`
+- **Zoom**: Control the zoom level of the timeline.
+- **Selected Chord**: Select a chord from the sequence.
+- **MIDI Integration**: The device receives and sends MIDI messages, allowing it to be integrated into any Ableton Live MIDI track.
+- **Parameter Automation**: All parameters can be automated from Ableton Live.
 
-2. Add to an Ableton MIDI track
+## Web App Usage
 
-## Web App Integration
-1. Ensure the ChordSeqAI web app is running (localhost:3000)
-2. The device automatically connects via WebSocket (port 8080)
+[Previous web app documentation...]
 
-### Connection Status
-- Blue LED: Connected to web app
-- Red LED: Connection error
-- Off: Web app not running
+## API Documentation
 
-## API Reference
-See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for full details.
+See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for complete API specs.
 
-### Basic Usage Example
-```javascript
-// Web app connection handler
-const socket = new WebSocket('ws://localhost:8080');
+## Contributing
 
-socket.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  if (data.type === 'transportUpdate') {
-    console.log(`BPM: ${data.payload.bpm}`);
-  }
-};
-```
+Contributions are welcome. Please open an issue or a pull request on the GitHub repository.
 
-## Known Limitations
-1. Requires Ableton Live 11+ 
-2. Web app must be running before device load
-3. Limited to one instance per Live set
+## Development Roadmap
 
-## Troubleshooting
-- **Connection issues**: Verify web app is running on port 3000
-- **Parameter sync problems**: Check Ableton's MIDI mapping conflicts
-- **Performance**: Reduce Max polling rate if CPU usage is high
+[Previous roadmap content...]
 
-## Development
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
-- Building from source
-- Testing procedures
-- Code standards
+## License
+
+MIT License
