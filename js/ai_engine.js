@@ -2,7 +2,7 @@ const Max = require('max-api');
 const ort = require('onnxruntime-node');
 const fs = require('fs');
 const path = require('path');
-const { CHORD_MAP } = require('./chord_mapping.js');
+const { CHORD_MAP } = require('./chord_mapping_full.js');
 
 let currentSession = null;
 let currentModelName = '';
@@ -45,7 +45,7 @@ async function loadModel(modelName) {
 
 // --- Chord Generation ---
 
-async function generateProgression(inputChordIndex, keySignature) {
+async function generateProgression(inputChordIndex, keySignature, styleWeights = null) {
     if (!currentSession) {
         Max.post('Cannot generate progression: No model loaded.', Max.POST_LEVEL.WARN);
         return;
@@ -55,6 +55,11 @@ async function generateProgression(inputChordIndex, keySignature) {
     try {
         const inputTensor = new ort.Tensor('int64', [BigInt(inputChordIndex)], [1]);
         const feeds = { [currentSession.inputNames[0]]: inputTensor };
+
+        if (styleWeights) {
+            const styleTensor = new ort.Tensor('float32', styleWeights, [styleWeights.length]);
+            feeds[currentSession.inputNames[1]] = styleTensor;
+        }
 
         const results = await currentSession.run(feeds);
         const outputTensor = results[currentSession.outputNames[0]];
