@@ -27,16 +27,16 @@ function loadModel() {
   const session = new ort.InferenceSession();
   try {
     await session.loadModel(modelPath);
-   - Convert logits to probabilities
-   - Sort suggestions by confidence
-   - Filter invalid chords
+    post("Model loaded successfully");
+  } catch (e) {
+    post("Load error: " + e);
+  }
+}
+```
 
-## Performance Optimization
-1. **Caching**:
-   - Cache loaded models
-   - Store recent inference results
-
-2. **Threading**:
+### 2. Input Preparation
+| Feature        | Normalization | Example Value |
+|---------------|--------------|--------------|
    - Run inference in background thread
    - Use [scheduler] for non-blocking execution
 
