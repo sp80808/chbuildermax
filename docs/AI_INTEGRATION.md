@@ -37,26 +37,47 @@ function loadModel() {
 ### 2. Input Preparation
 | Feature        | Normalization | Example Value |
 |---------------|--------------|--------------|
-   - Run inference in background thread
-   - Use [scheduler] for non-blocking execution
+| Chord Sequence | One-hot      | [0,1,0,...]  |
+| Style Weights | 0-1 range    | [0.8, 0.2]   |
+| Tempo         | 30-300 BPM   | 120 → 0.5    |
 
-3. **Fallbacks**:
-   - Progressive model loading (S→M→L)
-   - CPU usage monitoring
-
-## Implementation Phases
-```mermaid
-graph LR
-    A[Phase 1: Basic Inference] --> B[Model Loading]
-    A --> C[Input/Output Handling]
-    B --> D[Phase 2: Optimization]
-    C --> D
-    D --> E[Threading]
-    D --> F[Caching]
+### 3. Inference Execution
+```max
+[prepend model_name]
+|
+[js run_inference.js]
+|
+[route outputs]
 ```
 
-## Error Handling
-1. Model loading failures
-2. Input shape mismatches
-3. GPU acceleration fallback
-4. Memory warnings
+### Performance Benchmarks
+| Model          | CPU (ms) | RAM (MB) |
+|----------------|---------|---------|
+| Transformer S  | 45      | 120     |
+| Transformer L  | 210     | 580     |
+
+## Error Handling Guide
+
+### Common Issues
+1. **Model Not Found**  
+   - Check file permissions
+   - Verify model path
+
+2. **Input Shape Mismatch**  
+   ```javascript
+   // Validation example
+   if(input.length !== expectedLength) {
+     throw "Input size mismatch";
+   }
+   ```
+
+3. **GPU Acceleration**  
+   - Fallback to CPU if no GPU detected
+   - Memory management tips
+
+## Platform Support
+| OS         | ONNX Runtime | Notes               |
+|------------|--------------|---------------------|
+| Windows    | ✅           | Best performance    |
+| macOS      | ✅           | M1 optimized        |
+| Linux      | ⚠️           | Requires manual setup|
